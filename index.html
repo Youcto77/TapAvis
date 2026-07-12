@@ -6,6 +6,12 @@
     <title>TapAvis - Service d'Installation de Plaques d'Avis Google</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuration de Tailwind pour activer le mode sombre via une classe HTML
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -49,54 +55,67 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased overflow-x-hidden transition-colors duration-300">
 
     <!-- Header / Navigation Flottante -->
     <header class="sticky top-4 z-50 max-w-5xl mx-auto px-4 mt-4">
-        <div class="bg-white/85 backdrop-blur-md shadow-md shadow-slate-100/80 border border-slate-200/50 rounded-2xl px-6 py-3.5 flex justify-between items-center">
+        <div class="bg-white/80 dark:bg-slate-900/70 backdrop-blur-md shadow-md shadow-slate-100/80 dark:shadow-slate-950/55 border border-slate-200/50 dark:border-slate-800/80 rounded-2xl px-6 py-3.5 flex justify-between items-center transition-all duration-300">
             <!-- Logo & Brand -->
             <a href="#" class="flex items-center gap-3 group">
-                <!-- Logo Simple (SVG) : Représente une carte NFC et une Étoile d'avis -->
                 <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 p-2 rounded-xl text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="2" />
-                        <!-- Ondes NFC -->
                         <path d="M7 10c.5.8.5 2.2 0 3M9 8c1 1.5 1 4.5 0 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        <!-- Étoile d'avis -->
                         <path d="M15.5 8.5l.8 1.8 1.9.3-1.4 1.3.4 1.9-1.7-.9-1.7.9.4-1.9-1.4-1.3 1.9-.3.8-1.8z" fill="currentColor" />
                     </svg>
                 </div>
-                <span class="text-xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight">TapAvis</span>
+                <span class="text-xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent tracking-tight">TapAvis</span>
             </a>
             
-            <!-- CTA Button -->
-            <a href="#contact" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md shadow-blue-500/10 hover:shadow-blue-500/25">
-                Prendre RDV
-            </a>
+            <!-- Controls (Theme Toggle & CTA) -->
+            <div class="flex items-center gap-4">
+                <!-- Bouton de bascule de thème (Clair / Sombre) -->
+                <button onclick="toggleTheme()" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all duration-200 focus:outline-none">
+                    <!-- Icône Soleil (Visible en mode sombre) -->
+                    <svg id="theme-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
+                    </svg>
+                    <!-- Icône Lune (Visible en mode clair) -->
+                    <svg id="theme-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+
+                <!-- CTA Button -->
+                <a href="#contact" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md shadow-blue-500/10 hover:shadow-blue-500/25">
+                    Prendre RDV
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Hero Section & Simulateur NFC -->
     <section class="relative max-w-6xl mx-auto px-4 py-16 md:py-28 grid md:grid-cols-2 gap-12 items-center">
-        <div class="absolute -top-12 -left-12 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob pointer-events-none"></div>
-        <div class="absolute top-40 right-10 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 pointer-events-none"></div>
+        <!-- Blobs d'arrière-plan adaptatifs -->
+        <div class="absolute -top-12 -left-12 w-72 h-72 bg-blue-500/10 dark:bg-blue-600/15 rounded-full mix-blend-screen filter blur-[100px] animate-blob pointer-events-none"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-indigo-500/10 dark:bg-indigo-600/15 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000 pointer-events-none"></div>
 
         <div class="space-y-6 relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-700 text-sm font-medium">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/60 rounded-full text-blue-700 dark:text-blue-400 text-sm font-medium">
                 <span class="w-2 h-2 bg-blue-500 rounded-full animate-ping"></span>
                 Service de proximité clé en main
             </div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                Augmentez vos avis <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Google</span> sans effort.
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Augmentez vos avis <span class="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">Google</span> sans effort.
             </h1>
-            <p class="text-lg text-slate-600 leading-relaxed max-w-xl">
+            <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
                 Nous configurons, livrons et installons vos plaques connectées (NFC et QR Code) directement dans votre boutique. Gagnez du temps et développez votre clientèle locale.
             </p>
             <div class="flex flex-wrap gap-4 pt-2">
                 <a href="#tarifs" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 active:scale-95 text-white px-6 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30">
                     Voir nos tarifs
                 </a>
-                <button onclick="simulateNFC()" class="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 active:scale-95 text-slate-700 px-6 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-sm flex items-center gap-2">
+                <button onclick="simulateNFC()" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-850 active:scale-95 text-slate-700 dark:text-slate-200 px-6 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-sm flex items-center gap-2">
                     ⚡ Tester la plaque (Démo)
                 </button>
             </div>
@@ -105,7 +124,7 @@
         <div class="flex flex-col items-center justify-center relative z-10 space-y-6">
             <!-- Plaque virtuelle -->
             <div class="animate-float" id="nfc-plate">
-                <div class="glass-shine bg-white p-5 rounded-3xl shadow-xl border border-slate-100 max-w-sm transition-all duration-300">
+                <div class="glass-shine bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-xl dark:shadow-2xl border border-slate-100 dark:border-slate-800/80 max-w-sm transition-all duration-300">
                     <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-8 rounded-2xl text-center shadow-inner relative overflow-hidden">
                         <span class="text-xs font-semibold tracking-wider uppercase bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-sm">Laissez un avis</span>
                         <h3 class="text-3xl font-extrabold mt-5 tracking-tight">Sur Google</h3>
@@ -134,96 +153,108 @@
     </section>
 
     <!-- Services / Avantages -->
-    <section id="services" class="bg-white py-24 border-t border-slate-100 relative">
+    <section id="services" class="bg-white dark:bg-slate-950 py-24 border-t border-slate-100 dark:border-slate-900 relative transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto space-y-3">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">Pourquoi faire appel à notre service ?</h2>
-                <p class="text-slate-500">Nous configurons et installons votre outil de collecte d'avis de A à Z.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">Pourquoi faire appel à notre service ?</h2>
+                <p class="text-slate-500 dark:text-slate-400">Nous configurons et installons votre outil de collecte d'avis de A à Z.</p>
             </div>
             
             <div class="grid md:grid-cols-3 gap-8 mt-16">
                 <!-- Card 1 -->
-                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                <div class="p-8 bg-slate-50 dark:bg-slate-900/40 rounded-2xl border border-slate-100 dark:border-slate-800/80 hover:border-blue-200 dark:hover:border-blue-500/40 hover:bg-white dark:hover:bg-slate-900/60 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-slate-900">Configuration technique</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Nous lisons techniquement la puce NFC et le QR Code à l'adresse exacte de notation de votre fiche d'établissement.</p>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Configuration technique</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Nous lisons techniquement la puce NFC et le QR Code à l'adresse exacte de notation de votre fiche d'établissement.</p>
                 </div>
                 <!-- Card 2 -->
-                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                <div class="p-8 bg-slate-50 dark:bg-slate-900/40 rounded-2xl border border-slate-100 dark:border-slate-800/80 hover:border-blue-200 dark:hover:border-blue-500/40 hover:bg-white dark:hover:bg-slate-900/60 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-slate-900">Déplacement & Pose</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Nous nous déplaçons directement dans votre point de vente pour vous livrer et fixer le support à un endroit stratégique.</p>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Déplacement & Pose</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Nous nous déplaçons directement dans votre point de vente pour vous livrer et fixer le support à un endroit stratégique.</p>
                 </div>
                 <!-- Card 3 -->
-                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                <div class="p-8 bg-slate-50 dark:bg-slate-900/40 rounded-2xl border border-slate-100 dark:border-slate-800/80 hover:border-blue-200 dark:hover:border-blue-500/40 hover:bg-white dark:hover:bg-slate-900/60 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center rounded-xl mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-slate-900">Vérification en direct</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">Nous effectuons un test complet avec vos téléphones portables lors de la pose pour valider le bon fonctionnement du dispositif.</p>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Vérification en direct</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Nous effectuons un test complet avec vos téléphones portables lors de la pose pour valider le bon fonctionnement du dispositif.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Tarifs -->
-    <section id="tarifs" class="py-24 bg-slate-50 border-t border-slate-100 relative">
+    <section id="tarifs" class="py-24 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900 relative transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto space-y-3">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">Des tarifs simples et transparents</h2>
-                <p class="text-slate-500">Pas d'abonnement récurrent, investissement réglé une seule fois à l'installation.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">Des tarifs simples et transparents</h2>
+                <p class="text-slate-500 dark:text-slate-400">Pas d'abonnement récurrent, investissement réglé une seule fois à l'installation.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto mt-16">
                 <!-- Tarif Solo -->
-                <div class="bg-white p-8 rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:border-slate-300">
+                <div class="bg-white dark:bg-slate-900/30 p-8 rounded-3xl border border-slate-200/60 dark:border-slate-800/80 flex flex-col justify-between hover:shadow-2xl hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 transform hover:-translate-y-1">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900">Formule Standard</h3>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Formule Standard</h3>
                         <p class="text-slate-500 text-sm mt-1">Idéal pour les comptoirs simples.</p>
-                        <div class="mt-6 text-4xl font-extrabold text-slate-900">39 €</div>
-                        <ul class="mt-8 space-y-4 text-sm text-slate-600">
+                        <div class="mt-6 text-4xl font-extrabold text-slate-900 dark:text-white">
+                            39 €
+                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">*(35 € pour les commerces de Combs-la-Ville)</p>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-sm text-slate-600 dark:text-slate-300">
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> 1 Plaque d'avis connectée (NFC + QR)
+                                <span class="text-emerald-500 font-bold">✓</span> 1 Plaque d'avis connectée (NFC + QR)
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Configuration sur votre compte Google
+                                <span class="text-emerald-500 font-bold">✓</span> Configuration sur votre compte Google
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Déplacement, conseils et installation
+                                <span class="text-emerald-500 font-bold">✓</span> Déplacement, conseils et installation
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Test de bon fonctionnement immédiat
+                                <span class="text-emerald-500 font-bold">✓</span> Garantie remplacement gratuit (3 mois)
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="text-emerald-500 font-bold">✓</span> Test de bon fonctionnement immédiat
                             </li>
                         </ul>
                     </div>
-                    <a href="#contact" class="mt-8 block text-center bg-slate-900 hover:bg-black active:scale-95 text-white py-3.5 rounded-2xl font-semibold transition-all duration-200 shadow-md">
+                    <a href="#contact" class="mt-8 block text-center bg-slate-900 dark:bg-slate-800 hover:bg-black dark:hover:bg-slate-700 active:scale-95 text-white py-3.5 rounded-2xl font-semibold transition-all duration-200 shadow-md">
                         Choisir cette formule
                     </a>
                 </div>
 
                 <!-- Tarif Duo -->
-                <div class="bg-white p-8 rounded-3xl border-2 border-blue-600 shadow-md flex flex-col justify-between relative hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 transform hover:-translate-y-1">
+                <div class="bg-white dark:bg-slate-900/60 p-8 rounded-3xl border-2 border-blue-600 shadow-md dark:border-blue-600/80 flex flex-col justify-between relative hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 transform hover:-translate-y-1">
                     <span class="absolute top-0 right-6 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-md shadow-blue-500/20">Plus demandé</span>
                     <div>
-                        <h3 class="text-xl font-bold text-slate-900">Formule Double</h3>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Formule Double</h3>
                         <p class="text-slate-500 text-sm mt-1">Pour la caisse et la vitrine ou la sortie.</p>
-                        <div class="mt-6 text-4xl font-extrabold text-slate-900">59 €</div>
-                        <ul class="mt-8 space-y-4 text-sm text-slate-600">
+                        <div class="mt-6 text-4xl font-extrabold text-slate-900 dark:text-white">
+                            59 €
+                            <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">*(55 € pour les commerces de Combs-la-Ville)</p>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-sm text-slate-600 dark:text-slate-300">
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> 2 Plaques d'avis connectées (NFC + QR)
+                                <span class="text-emerald-500 font-bold">✓</span> 2 Plaques d'avis connectées (NFC + QR)
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Configuration des deux dispositifs
+                                <span class="text-emerald-500 font-bold">✓</span> Configuration des deux dispositifs
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Déplacement et installation des supports
+                                <span class="text-emerald-500 font-bold">✓</span> Déplacement et installation des supports
                             </li>
                             <li class="flex items-center gap-3">
-                                <span class="text-green-500 font-bold">✓</span> Tests de bon fonctionnement
+                                <span class="text-emerald-500 font-bold">✓</span> Garantie remplacement gratuit (3 mois)
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="text-emerald-500 font-bold">✓</span> Tests de bon fonctionnement
                             </li>
                         </ul>
                     </div>
@@ -232,47 +263,117 @@
                     </a>
                 </div>
             </div>
+
+            <!-- Badges Offre Locale & Garantie -->
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <!-- Offre Combs-la-Ville -->
+                <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-150 dark:border-blue-900/40 rounded-full text-xs text-blue-700 dark:text-blue-400 font-semibold shadow-sm">
+                    📍 Offre locale : Tarif préférentiel à 35 € et 55 € pour tous les commerçants de Combs-la-Ville !
+                </span>
+                <!-- Garantie 3 Mois -->
+                <span class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-150 dark:border-emerald-900/40 rounded-full text-xs text-emerald-700 dark:text-emerald-400 font-semibold shadow-sm animate-pulse">
+                    🛡️ Garantie Sérénité : Remplacement gratuit de votre plaque pendant 3 mois en cas de souci.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages / Avis Clients -->
+    <section class="bg-white dark:bg-slate-950 py-24 border-t border-slate-100 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+                <span class="text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">Avis de nos clients</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">Ils ont installé TapAvis</h2>
+                <p class="text-slate-500 dark:text-slate-400">Découvrez les retours d'expérience de commerçants locaux.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Avis 1 -->
+                <div class="bg-slate-50 dark:bg-slate-900/30 p-8 rounded-2xl border border-slate-100 dark:border-slate-850 space-y-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center font-bold text-sm">MC</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-sm">Michel C.</h4>
+                            <p class="text-xs text-slate-500">Boulangerie "Le Fournil"</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 text-sm">★★★★★</div>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                        "L'installation a été faite en 10 minutes à ma caisse. Mes clients trouvent cela très pratique. J'ai doublé mon nombre d'avis en un mois, ce qui m'amène de nouveaux clients de passage."
+                    </p>
+                </div>
+
+                <!-- Avis 2 -->
+                <div class="bg-slate-50 dark:bg-slate-900/30 p-8 rounded-2xl border border-slate-100 dark:border-slate-850 space-y-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center font-bold text-sm">SL</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-sm">Sarah L.</h4>
+                            <p class="text-xs text-slate-500">Salon de coiffure "Atelier S"</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 text-sm">★★★★★</div>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                        "Très satisfaite de l'accompagnement. TapAvis s'est occupé de tout lier à mon compte Google. Les clients n'ont qu'à poser leur téléphone sur le comptoir à la fin de leur rendez-vous."
+                    </p>
+                </div>
+
+                <!-- Avis 3 -->
+                <div class="bg-slate-50 dark:bg-slate-900/30 p-8 rounded-2xl border border-slate-100 dark:border-slate-850 space-y-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center font-bold text-sm">TD</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-sm">Thomas D.</h4>
+                            <p class="text-xs text-slate-500">Restaurant "La Table Verte"</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-400 text-sm">★★★★★</div>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
+                        "Le support est discret mais efficace. Nous présentons la plaque avec l'addition, et le retour est excellent. C'est un investissement très vite amorti par rapport à d'autres solutions."
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- FAQ Accordéon -->
-    <section class="bg-white py-24 border-t border-slate-100">
+    <section class="bg-slate-50 dark:bg-slate-950 py-24 border-t border-slate-100 dark:border-slate-900 transition-colors duration-300">
         <div class="max-w-3xl mx-auto px-4">
             <div class="text-center space-y-3 mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Questions Fréquentes</h2>
-                <p class="text-slate-500">Tout ce qu'il faut savoir sur notre service.</p>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Questions Fréquentes</h2>
+                <p class="text-slate-500 dark:text-slate-400">Tout ce qu'il faut savoir sur notre service.</p>
             </div>
 
             <div class="space-y-4">
                 <!-- Item FAQ 1 -->
-                <div class="border border-slate-100 rounded-2xl bg-slate-50/50">
-                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 border-none outline-none">
+                <div class="border border-slate-150 dark:border-slate-850 rounded-2xl bg-white dark:bg-slate-900/20">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 dark:text-slate-200 border-none outline-none">
                         <span>Y a-t-il un abonnement ou des frais cachés ?</span>
-                        <span class="text-blue-600 text-xl transition-transform duration-200">+</span>
+                        <span class="text-blue-600 dark:text-blue-400 text-xl transition-transform duration-200">+</span>
                     </button>
-                    <div class="hidden px-6 pb-6 text-sm text-slate-600 leading-relaxed">
+                    <div class="hidden px-6 pb-6 text-sm text-slate-400 leading-relaxed">
                         Non, absolument aucun. C’est un achat unique. Une fois la plaque configurée et installée par nos soins, elle fonctionne sans limite de temps et sans aucun frais mensuel.
                     </div>
                 </div>
 
                 <!-- Item FAQ 2 -->
-                <div class="border border-slate-100 rounded-2xl bg-slate-50/50">
-                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 border-none outline-none">
+                <div class="border border-slate-150 dark:border-slate-850 rounded-2xl bg-white dark:bg-slate-900/20">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 dark:text-slate-200 border-none outline-none">
                         <span>Que se passe-t-il si je n'ai pas encore de compte Google Business ?</span>
-                        <span class="text-blue-600 text-xl transition-transform duration-200">+</span>
+                        <span class="text-blue-600 dark:text-blue-400 text-xl transition-transform duration-200">+</span>
                     </button>
-                    <div class="hidden px-6 pb-6 text-sm text-slate-600 leading-relaxed">
+                    <div class="hidden px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                         Pas d'inquiétude, nous pouvons vous conseiller ou vous accompagner lors de notre visite pour vous aider à lancer et configurer correctement votre fiche d'établissement gratuite sur Google Maps.
                     </div>
                 </div>
 
                 <!-- Item FAQ 3 -->
-                <div class="border border-slate-100 rounded-2xl bg-slate-50/50">
-                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 border-none outline-none">
+                <div class="border border-slate-150 dark:border-slate-850 rounded-2xl bg-white dark:bg-slate-900/20">
+                    <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-6 text-left font-bold text-slate-900 dark:text-slate-200 border-none outline-none">
                         <span>La plaque est-elle compatible avec tous les smartphones ?</span>
-                        <span class="text-blue-600 text-xl transition-transform duration-200">+</span>
+                        <span class="text-blue-600 dark:text-blue-400 text-xl transition-transform duration-200">+</span>
                     </button>
-                    <div class="hidden px-6 pb-6 text-sm text-slate-600 leading-relaxed">
+                    <div class="hidden px-6 pb-6 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                         Oui. Pour les smartphones récents, la puce NFC fonctionne par simple contact. Pour les téléphones plus anciens, le QR Code haute définition imprimé sur la plaque permet de flasher et d'accéder au même service instantanément.
                     </div>
                 </div>
@@ -280,31 +381,40 @@
         </div>
     </section>
 
-    <!-- Contact Form -->
-    <section id="contact" class="bg-white py-24 border-t border-slate-100">
+    <!-- Contact Form (Connecté à Web3Forms) -->
+    <section id="contact" class="bg-white dark:bg-slate-950 py-24 border-t border-slate-100 dark:border-slate-900 transition-colors duration-300">
         <div class="max-w-xl mx-auto px-4">
             <div class="text-center space-y-3">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Prendre rendez-vous</h2>
-                <p class="text-slate-500">Remplissez ces informations et nous vous contacterons pour planifier l'installation.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Prendre rendez-vous</h2>
+                <p class="text-slate-500 dark:text-slate-400">Remplissez ces informations et nous vous contacterons pour planifier l'installation.</p>
             </div>
 
-            <form id="contact-form" onsubmit="handleFormSubmit(event)" class="mt-10 space-y-5 bg-slate-50/50 p-8 rounded-3xl border border-slate-100 shadow-sm">
+            <!-- Formulaire opérationnel -->
+            <form action="https://api.web3forms.com/submit" method="POST" id="contact-form" onsubmit="handleFormSubmit(event)" class="mt-10 space-y-5 bg-slate-50/50 dark:bg-slate-900/30 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                
+                <!-- Clé Web3Forms -->
+                <input type="hidden" name="access_key" value="fbe83fcc-a0c9-4289-a91e-3e4938d08535">
+                
+                <input type="hidden" name="subject" value="Nouvelle commande d'installation TapAvis">
+                <input type="hidden" name="from_name" value="Site Internet TapAvis">
+
                 <div class="group">
-                    <label class="block text-sm font-semibold text-slate-700">Nom du commerce</label>
-                    <input type="text" required class="mt-1.5 block w-full rounded-xl border-slate-200 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200 bg-white" placeholder="Ex: Boulangerie Du Pont">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nom du commerce</label>
+                    <input type="text" name="nom_commerce" required class="mt-1.5 block w-full rounded-xl border-slate-200 dark:border-slate-800 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950 outline-none transition-all duration-200 bg-white dark:bg-slate-900 text-slate-800 dark:text-white" placeholder="Ex: Boulangerie Du Pont">
                 </div>
                 <div class="group">
-                    <label class="block text-sm font-semibold text-slate-700">Votre Nom & Prénom</label>
-                    <input type="text" required class="mt-1.5 block w-full rounded-xl border-slate-200 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200 bg-white" placeholder="Jean Dupont">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Votre Nom & Prénom</label>
+                    <input type="text" name="nom_client" required class="mt-1.5 block w-full rounded-xl border-slate-200 dark:border-slate-800 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950 outline-none transition-all duration-200 bg-white dark:bg-slate-900 text-slate-800 dark:text-white" placeholder="Jean Dupont">
                 </div>
                 <div class="group">
-                    <label class="block text-sm font-semibold text-slate-700">Téléphone</label>
-                    <input type="tel" required class="mt-1.5 block w-full rounded-xl border-slate-200 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200 bg-white" placeholder="06 12 34 56 78">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Téléphone</label>
+                    <input type="tel" name="telephone" required class="mt-1.5 block w-full rounded-xl border-slate-200 dark:border-slate-800 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950 outline-none transition-all duration-200 bg-white dark:bg-slate-900 text-slate-800 dark:text-white" placeholder="06 12 34 56 78">
                 </div>
                 <div class="group">
-                    <label class="block text-sm font-semibold text-slate-700">Adresse du point de vente</label>
-                    <input type="text" required class="mt-1.5 block w-full rounded-xl border-slate-200 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200 bg-white" placeholder="12 rue de la République, Paris">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Adresse du point de vente</label>
+                    <input type="text" name="adresse" required class="mt-1.5 block w-full rounded-xl border-slate-200 dark:border-slate-800 shadow-sm p-3.5 border focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950 outline-none transition-all duration-200 bg-white dark:bg-slate-900 text-slate-800 dark:text-white" placeholder="12 rue de la République, Paris">
                 </div>
+                
                 <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 active:scale-95 text-white font-semibold py-4 rounded-xl transition-all duration-200 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 mt-6">
                     Envoyer ma demande d'installation
                 </button>
@@ -319,7 +429,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-16 text-center text-sm border-t border-slate-800">
+    <footer class="bg-slate-900 dark:bg-slate-950 text-slate-400 py-16 text-center text-sm border-t border-slate-800 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 space-y-4">
             <p class="font-semibold text-slate-300">TapAvis</p>
             <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">Service local et indépendant de configuration technique et d'installation de supports. Google et ses logos sont des marques déposées de Google LLC.</p>
@@ -330,18 +440,34 @@
 
     <!-- Logique Interactive Javascript -->
     <script>
+        // Gestion du Thème (Clair / Sombre)
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Application du thème au chargement de la page
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
         // 1. Simulateur NFC
         function simulateNFC() {
             const phone = document.getElementById('phone-simulation');
             
-            // Affiche la simulation de notification
             phone.classList.remove('hidden');
             setTimeout(() => {
                 phone.classList.add('opacity-100', 'scale-100', 'translate-y-0');
                 phone.classList.remove('opacity-0', 'scale-90', 'translate-y-4');
             }, 100);
 
-            // Ferme automatiquement la démo après 5 secondes
             setTimeout(() => {
                 phone.classList.add('opacity-0', 'scale-90', 'translate-y-4');
                 phone.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
@@ -363,21 +489,36 @@
             }
         }
 
-        // 3. Notification à la soumission du formulaire
+        // 3. Soumission du formulaire par API vers Web3Forms
         function handleFormSubmit(event) {
-            event.preventDefault(); // Évite le rechargement de la page
+            event.preventDefault();
             
+            const form = document.getElementById('contact-form');
+            const formData = new FormData(form);
             const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
-            toast.classList.add('opacity-100', 'translate-y-0');
 
-            document.getElementById('contact-form').reset();
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    toast.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
+                    toast.classList.add('opacity-100', 'translate-y-0');
 
-            // Masque le toast après 4 secondes
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
-                toast.classList.remove('opacity-100', 'translate-y-0');
-            }, 4000);
+                    form.reset();
+
+                    setTimeout(() => {
+                        toast.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
+                        toast.classList.remove('opacity-100', 'translate-y-0');
+                    }, 4000);
+                } else {
+                    alert("Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.");
+                }
+            })
+            .catch(error => {
+                alert("Erreur réseau. Veuillez vérifier votre connexion internet.");
+            });
         }
     </script>
 </body>
